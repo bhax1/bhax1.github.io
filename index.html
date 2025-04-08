@@ -43,16 +43,6 @@
         margin-bottom: 1rem;
       }
 
-      .spinner {
-        margin-top: 2rem;
-        width: 50px;
-        height: 50px;
-        border: 5px solid #fff3cd;
-        border-top: 5px solid var(--primary-color);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-
       @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
@@ -64,8 +54,8 @@
     </style>
   </head>
   <body>
-    <h2 id="title">Authenticating...</h2>
-    <p id="message">Please wait while we sign you in.</p>
+    <h2 id="title">Authentication Successful!</h2>
+    <p id="message">You may close this window.</p>
     <div class="spinner" id="spinner"></div>
 
     <script>
@@ -83,22 +73,7 @@
       const refresh_token = hashParams.get("refresh_token");
 
       if (access_token && refresh_token) {
-        supabase.auth.setSession({ access_token, refresh_token })
-          .then(({ data, error }) => {
-            spinner.classList.add('hidden');
-
-            if (error) {
-              title.innerText = "Auth failed 😞";
-              message.innerText = error.message;
-            } else {
-              title.innerText = "Welcome! 🎉";
-              message.innerText = "Authentication successful.";
-            }
-          });
       } else {
-        spinner.classList.add('hidden');
-        title.innerText = "No token found.";
-        message.innerText = "Please use a valid invite or login link.";
       }
     </script>
   </body>
