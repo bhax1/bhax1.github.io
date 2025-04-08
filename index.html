@@ -86,18 +86,19 @@
         supabase.auth.setSession({ access_token, refresh_token })
           .then(({ data, error }) => {
             spinner.classList.add('hidden');
+
             if (error) {
               title.innerText = "Auth failed 😞";
               message.innerText = error.message;
             } else {
               title.innerText = "Welcome! 🎉";
-              message.innerText = "Authentication successful. You may now close this window.";
+              message.innerText = "Authentication successful.";
             }
           });
       } else {
         spinner.classList.add('hidden');
         title.innerText = "No token found.";
-        message.innerText = "Please use a valid invite link.";
+        message.innerText = "Please use a valid invite or login link.";
       }
     </script>
   </body>
