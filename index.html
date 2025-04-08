@@ -62,17 +62,33 @@
         'https://abgtvqovmdlmpyamfwkk.supabase.co',
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZ3R2cW92bWRsbXB5YW1md2trIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQwMjU3NDUsImV4cCI6MjA1OTYwMTc0NX0.qWs49eeIhOk6DuOiCEjDoAakM1BwdfR5TYjLKicehfk'
       );
-
+    
       const title = document.getElementById('title');
       const message = document.getElementById('message');
-      const spinner = document.getElementById('spinner');
-
+    
       const hashParams = new URLSearchParams(window.location.hash.slice(1));
       const access_token = hashParams.get("access_token");
       const refresh_token = hashParams.get("refresh_token");
-
+    
       if (access_token && refresh_token) {
+        supabase.auth.setSession({
+          access_token,
+          refresh_token,
+        }).then(({ data, error }) => {
+          if (error) {
+            title.textContent = "Authentication Failed";
+            message.textContent = "There was an error setting your session.";
+            console.error("Supabase auth error:", error);
+          } else {
+            title.textContent = "Authentication Successful!";
+            message.textContent = "You may now close this window.";
+            console.log("Auth session set:", data);
+          }
+        });
       } else {
+        title.textContent = "Authentication Error";
+        message.textContent = "Missing access token or refresh token.";
+        console.error("Missing tokens in URL.");
       }
     </script>
   </body>
